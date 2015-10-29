@@ -25,7 +25,8 @@ class Koniectury extends Handler {
     public function handleRequest($request) {
          if($request->getService()=="Koniectury"){
             echo"<br>Postac zakonczyla ture<br>";
-            $bylatura=true;
+            $this->tura->tura(TRUE);
+            $this->tura->setGame();
             $this->tura->postac2Tura();
             
         }

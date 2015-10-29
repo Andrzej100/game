@@ -13,14 +13,17 @@
  */
 class Rozdaniestate implements IState {
     private $context;
+    private $gracz1;
+    private $gracz2;
 
-    public function __construct(Context2 $contextNow) {
+    public function __construct(Context2 $contextNow,$gracz1,$gracz2) {
         $this->context = $contextNow;
+        $this->gracz1=$gracz1;
+        $this->gracz2=$gracz2;
+
+        
     }
-   public function turainf(){
-       $tura='rozdanie';
-       return $tura;
-   } 
+  
    public function postac1Tura(){
        echo"przechodzimy do tury pierwszej";
        $this->context->setState($this->context->postac1State());
@@ -32,4 +35,11 @@ class Rozdaniestate implements IState {
    public function rozdanieTura(){
        echo"punkty zsotały juz rozdane";
    }
+public function setAction(){
+    $this->gracz1->punktyakcji=2;
+    $this->gracz2->punktyakcji=2;
+    $this->postac1Tura();
+    echo "nowa tura Rozpoczyna".$this->context->turaInf();
+   
+}
 }

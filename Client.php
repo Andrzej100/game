@@ -29,13 +29,13 @@ class Client {
     private $context;
     
     public function __construct(){
-        
-       //$this->pierwszapostac=new Postac1factory();
-       // $produkt=$this->pierwszapostac->startFactory();
-       // echo $produkt->getProperties();
-       // $this->drugapostac= new Postac2factory();
-       // $produkt2=$this->drugapostac->startFactory();
-       // echo $produkt2->getProperties();
+        if(empty($_POST['sendNow'])){
+          $this->pierwszapostac=new Postac1factory();
+          $produkt=$this->pierwszapostac->startFactory();
+          //echo $produkt->getProperties();
+          $this->drugapostac= new Postac2factory();
+          $produkt2=$this->drugapostac->startFactory();
+          //echo $produkt2->getProperties();
        // $context=new Context();
        // $context2=new Context();
        // $context->setPotion($produkt);
@@ -44,10 +44,27 @@ class Client {
        // $this->potion2=$context2->getPotion();
        // echo $produkt->getProperties();
        // echo $produkt2->getProperties();
-        $this->context=new Context2();
-        $this->context->turaPostac1();
-        $this->context->actionSet();
+        $context=new Context2($produkt,$produkt2);
+        $context->actionSet();
+        if($context->endgame()){
+            echo"koniec gry".$context->turainf();
+        }
+        $s=serialize($context);
+        file_put_contents('plik.txt',$s);
+        }else{
+        $data=file_get_contents('plik.txt');
+        $a=unserialize($data);        
+        $context=$a;
+        $context->actionSet();
+        var_dump($context->endgame());
+        if($context->endgame()){
+            echo"koniec gry wygrales".$context->turainf();
+        }
+        $s=serialize($context);
+        file_put_contents('plik.txt',$s);
+        }
+        
         
     }
 }
-$worker = new Client();
+//$worker = new Client();

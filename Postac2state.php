@@ -12,26 +12,66 @@
  * @author andrzej.mroczek
  */
 class Postac2state implements IState {
-    private $context;
 
-    public function __construct(Context2 $contextNow) {
+    private $context;
+    private $queryNow;
+    private $turn;
+    private $endgame=FALSE;
+    private $gracz;
+
+    public function __construct(Context2 $contextNow, $gracz) {
         $this->context = $contextNow;
+        $this->gracz = $gracz;
     }
-    
-     public function turainf(){
-       $tura='postac2';
-       return $tura;
-   }
-   
-   public function postac1Tura(){
-       echo"przechodzimy do tury pierwszej";
-       $this->context->setState($this->context->postac1State());
-   }
-   public function postac2Tura(){
-       echo"postac 2 wykonuje wlasnie ture";
-   }
-   public function rozdanieTura(){
-       echo"przechodzimy do rozdania punktow";
-       $this->context->setState($this->context->rozdanieState());
-   }
+
+    public function turaInf() {
+        return "Postac2";
+    }
+
+    public function setGame() {
+        if($this->gracz->zycie()==0){
+        $this->endgame = TRUE;
+        }
+    }
+
+    public function tura($turn) {
+        $this->turn = $turn;
+    }
+    public function endgame() {
+        return $this->endgame;
+    }
+
+    public function postac1Tura() {
+        echo"przechodzimy do tury pierwszej";
+        $this->context->setState($this->context->postac1State());
+    }
+
+    public function postac2Tura() {
+        echo"postac 2 wykonuje wlasnie ture";
+    }
+
+    public function rozdanieTura() {
+        echo"przechodzimy do rozdania punktow";
+        $this->context->setState($this->context->rozdanieState());
+    }
+
+    public function setAction() {
+        if ($this->turn) {
+            $this->context->newTurn();
+            $this->rozdanieTura();
+            $this->context->actionSet();
+        }
+        if (isset($_POST['sendNow'])) {
+            $this->queryNow = $_POST['sendNow'];
+
+            $Atakuj = new Atakuj($this->gracz);
+            $Koniectury = new Koniectury($this);
+            $Atakuj->setSuccessor($Koniectury);
+            $loadup = new Request($this->queryNow);
+            $Atakuj->handleRequest($loadup);
+        } else {
+            echo "postac 2 wykonaj ruch";
+        }
+    }
+
 }

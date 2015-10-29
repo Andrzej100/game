@@ -18,14 +18,22 @@ class Context2 {
     private $rozdanie;
     private $currentState;
 
-    public function __construct() {
-        $this->postac1 = new Postac1state($this);
-        $this->postac2 = new Postac2state($this);
-        $this->rozdanie = new Rozdaniestate($this);
+    public function __construct($gracz1,$gracz2) {
+        
+        $this->postac1 = new Postac1state($this,$gracz1);
+        $this->postac2 = new Postac2state($this,$gracz2);
+        $this->rozdanie = new Rozdaniestate($this,$gracz1,$gracz2);
 
         $this->currentState = $this->rozdanie;
+        
+        $this->currentState->setAction();
     }
-
+    
+    public function newTurn(){
+      $this->postac1->tura(FALSE);
+      $this->postac2->tura(FALSE);
+    }
+    
     public function turaPostac1() {
         $this->currentState->postac1Tura();
     }
@@ -55,6 +63,19 @@ class Context2 {
     }
     public function actionSet(){
         $this->currentState->setAction();
+    }
+    public function endgame(){
+        
+        if($this->postac1->endgame()){
+            return TRUE;
+        }
+        if($this->postac2->setGame()){
+        return TRUE;
+        }
+        return FALSE;
+    }
+    public function turaInf(){
+         $this->currentState->turaInf();
     }
 
 }

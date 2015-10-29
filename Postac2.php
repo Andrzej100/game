@@ -21,8 +21,15 @@ class Postac2 implements Product {
     public function minusstat($stat,$value){
         $this->staty[$stat]-=$value;
     }
-   
+    public function zycie(){
+        return $this->staty['zycie'];
+    }
+    public function atack(){
+        $this->minusstat('zycie', 1);
+    }
     public function setProperties($property){
+        $this->staty['actionpkt']=$property->get('actionpkt');
+        
         $this->staty['imie']=$property->get('imie');
         
         $this->staty['sila']=$property->get('sila');

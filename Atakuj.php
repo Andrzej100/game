@@ -12,6 +12,11 @@
  * @author andrzej.mroczek
  */
 class Atakuj extends Handler {
+     private $gracz;
+   public function __construct($gracz){
+        $this->gracz=$gracz;
+        
+    }
 
     public function setSuccessor($nextService) {
         $this->successor = $nextService;
@@ -19,7 +24,9 @@ class Atakuj extends Handler {
 
     public function handleRequest($request) {
         if($request->getService()=="Atakuj"){
-            echo"Postac atakuje postac";
+            $this->gracz->atack();
+            echo $this->gracz->getProperties();
+            echo "zaatakowal";
         }
         $this->successor->handleRequest($request);
     }

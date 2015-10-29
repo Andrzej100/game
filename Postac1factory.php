@@ -16,6 +16,7 @@ class Postac1factory extends Creator {
     protected function factoryMethod() {
         $product= new Postac1;
         $property=new Property();
+        $property->set('actionpkt',0);
         $property->set('imie','Andrzej');
         $property->set('sila',10);
         $property->set('zycie',20);
