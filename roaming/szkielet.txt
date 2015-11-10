@@ -1,0 +1,14 @@
+
+
+Roaming/AppBundle
+			TelefonController / dodaj|edytuj|usuñ|wyœwietl
+				nr tel + osoba przypisana
+				
+			PakeitController / dodaj|edytuj|usuñ|wyœwietl
+				nazwa pakietu
+				
+			AktywacjaController / dodja|wyœwietl
+				kto = lista (imie nazwisko nr tel)
+				jaki = lista pakiety
+				zakres od i do = pole daty od - daty do 
+			
